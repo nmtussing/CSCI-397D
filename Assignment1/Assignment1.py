@@ -8,7 +8,6 @@ implementation of dynamic programming for an efficient solution
 
 import random
 
-
 def trap(map):
     trapped_water = 0
     index = -1
