@@ -13,24 +13,28 @@ def trap(heights):
     for i in range(0,length):
         index +=1
         if i == 0 and heights[i] == 0:
-            trapped_water +=0
+            continue
         if heights[i] >=1 and index < length:
             for n in range(i,length):
                 if heights[n]<= heights[i]:
                     trapped_water += heights[i]-heights[n]
                 elif heights[n]> heights[i]: 
-                    break
+                    continue
     return trapped_water
             
-            
 
-        
+
+
+# Testing with example elevation map
+if __name__ == "__main__":
+    elevationMapTest = [0,1,0,2,1,0,1,3,2,1,2,1]
+    print(trap(elevationMapTest))
 
 
 # Testing the ElevationMap class
 if __name__ == "__main__":
-    elevation_map = ElevationMap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
-    trapped_water = elevation_map.trap_water()
-    print("Trapped Water:", trapped_water)
+    elevationMapTest = [0,1,0,2,1,0,1,3,2,1,2,1]
+    print(trap(elevationMapTest))
+    
 
 
