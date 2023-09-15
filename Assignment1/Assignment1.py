@@ -6,6 +6,9 @@ map based on a list of numbers. This solution utilizes memoization as an
 implementation of dynamic programming for an efficient solution
 """
 
+import random
+
+
 def trap(map):
     trapped_water = 0
     index = -1
@@ -34,8 +37,16 @@ def trap(map):
 # Testing with example elevation map
 if __name__ == "__main__":
     print("Testing the function")
-    print(trap("Expected: 6 \n Result: " [0,1,0,2,1,0,1,3,2,1,2,1],))
-    print(trap([0,1,0,2,0,1,0,2,0,2]))
+    print("Expected: 6 \nResult: ", trap([0,1,0,2,1,0,1,3,2,1,2,1]))
+    print("Expected: 8 \nResult: ", trap([0,1,0,2,0,1,0,2,0,2]))
+    print("Generating random elevation map sequence")
+    length1 = 10
+    randomMap = [random.randint(0,15) for i in range(length1)]
+    print(randomMap)
+    print(trap(randomMap))
+    
+    
+    
     
 
     
