@@ -10,6 +10,10 @@ def trap(heights):
     trapped_water = 0
     index = -1
     length = len(heights)
+    leftMax = [0] * length  
+    rightMax = [0] * length  
+    
+    
     for i in range(0,length):
         index +=1
         if i == 0 and heights[i] == 0:
