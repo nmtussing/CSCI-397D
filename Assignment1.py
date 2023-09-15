@@ -5,13 +5,11 @@ A program that computes how much water would be contained in an elevation
 map based on a list of numbers. This solution utilizes memoization as an 
 implementation of dynamic programming for an efficient solution
 """
-
+length = len(heights)
 def trap(heights):
-    length = len(heights)
-    
+    for i in range(0,length):
+        if heights[i] == 0:
 
-            
-                
             
     
 
