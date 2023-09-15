@@ -1,0 +1,21 @@
+Designing an RL Loop
+
+In the context of marketing, a good example and potential RL loop that could be implemented and trained is with a bot/agent
+which makes predictive product recommendations based on users interaction history with the site and any other user information 
+the site might collect. A good example of this function are the personalized product recommendations you might find on Amazon 
+where the home page will recommend categories or products similar or directly related to your most recent searches on the site.
+In this scenario, the agent would be a bot that controls a panel or window on the Amazon, or whatever online retailer you might
+have in mind, and this program would choose from a product from a given catalog to display and will redirect the user to 
+the product page once clicked upon. The product displayed would be influenced by user site history which could include recent viewings of products, recent purchases, recent returns, if they added products to a wishlist, and site searches. Rewards would be based on user clicks and negative rewards would be based on if the program has gone several different homepage encounters with the particular user. Below is a further breakdown of the scenario in the categories of agent, action space, state, and reward:
+
+Agent:
+A recommendation bot which displays relevant products to a user based on the user's recent history
+
+Action space:
+The bot/program will select a product from the catalog based on the user information and display the product in a product window or panel on the homepage with a link to redirect the user to the product page
+
+State:
+The state is the recent site interaction history for a given user of up to 30 days, the homepage environment with the product window, and the data actively being gathered as the user moves back and forth from the homepage to product page in the current site visit. It seems reasonable to keep the dataset of user interaction limited to the most recent 30 days as people do not tend to continue shopping for the same products through several months, therefore, making data beyond that time period irrelevant. The state is specific to each particular user at a given time, which means that site data from other users does not influence the learning for the bot for current user. In more complex programs, there could be segmentation involved in which the bot could be optimized by learning from user data collected by others who fit into a similar cohort as the current user, but that requires further expertise into the type of online retailer in discussion, how the retailer wants to segment customers, and even market share. 
+
+Reward: 
+In this scenario, it makes sense that the agent would be rewarded with each click as that would be considered a successful product recommendation. The agent displayed a product based on relevant data, and it appeared to be a good enough recommendation for the user to further explore and possibly be a converted customer. 
