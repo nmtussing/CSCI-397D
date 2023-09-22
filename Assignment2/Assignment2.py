@@ -46,8 +46,6 @@ probabilityMatrix = [
     [9, 0.1],
     ]
 
-
-
 if __name__ == "__main__":
     agent1 = agent.agent()
     print(agent1.location)
