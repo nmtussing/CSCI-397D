@@ -7,4 +7,8 @@ import  agent
 import islands  
 
 if __name__ == "__main__":
-    print("Hello")
+    agent1 = agent.agent()
+    print(agent1.location)
+    agent1.location = 10
+    print(agent1.location)
+    

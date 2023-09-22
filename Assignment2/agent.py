@@ -13,3 +13,7 @@ class agent:
     
     def move(self):
         nextMove = None
+        
+    @property
+    def getReward(self):
+        return self.reward
