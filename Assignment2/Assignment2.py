@@ -34,8 +34,9 @@ actionset = ['dig','moveNext']
 #Creating instance of the probability matrix where the first column is the island number
 #and second column is the probability to dig, and the remaining columns are the probability to 
 #move to the other islands
+
 probabilityMatrix = [
-    [1, 0.1],
+    [1, 0.1, 0, 0.9, 0, 0, 0, 0, 0, 0, 0, 0],
     [2, 0.1],
     [3, 0.1],
     [4, 0.1],
@@ -52,6 +53,6 @@ if __name__ == "__main__":
     agent1.location = 10
     print(agent1.location)
     print(island6.hasTreasure())
-    
-        
+    value = probabilityMatrix
+    print(probabilityMatrix[5][0])
     
