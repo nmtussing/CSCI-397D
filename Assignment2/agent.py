@@ -11,6 +11,5 @@ class agent:
         self.location = 1
         self.action = None
     
-        
     def move(self):
-        pass
+        nextMove = None
