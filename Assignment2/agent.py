@@ -11,6 +11,4 @@ class agent:
         self.location = 1
         self.action = None
     
-    def dig(self):
-        if 
-    
+ 
