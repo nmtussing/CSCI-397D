@@ -3,32 +3,33 @@ Assignment2.py
 Author: Nicholas Tussing
 Program to run the MDP with 10 states, truncated to 25 steps
 """
+import random
 import  agent
 import islands  
 # Creating the environment 
 island1 = islands.islands()
-island1.number = 1
+island1.location = 1
 island2 = islands.islands()
-island2.number = 2
+island2.location = 2
 island3 = islands.islands()
-island3.number = 3
+island3.location = 3
 island3.treasure = True
 island4 = islands.islands()
-island4.number = 4
+island4.location = 4
 island5 = islands.islands()
-island5.number = 5
+island5.location = 5
 island6 = islands.islands()
-island6.number = 6
+island6.location = 6
 island6.treasure = True
 island7 = islands.islands()
-island7.number = 7
+island7.location = 7
 island8 = islands.islands()
-island8.number = 8
+island8.location = 8
 island9 = islands.islands()
-island9.number = 9
+island9.location = 9
 island9.treasure = True
 island10 = islands.islands()
-island10.number = 10
+island10.location = 10
 
 actionset = ['dig','moveNext']
 #Creating instance of the probability matrix where the first column is the island number
@@ -45,6 +46,18 @@ probabilityMatrix = [
     [8, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0.45],
     [9, 0.1, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45],
     ]
+
+def runGame(steps):
+    actions = []
+    agent2 = agent.agent()
+    agent2.location = 1
+    for i in range(25):
+        choice = random.uniform(0.0,1.0)
+        if choice <= 0.1:
+            pass
+            
+        
+        
 
 if __name__ == "__main__":
     agent1 = agent.agent()

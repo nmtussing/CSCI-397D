@@ -3,10 +3,11 @@ Author: Nicholas Tussing
 islands.py
 Creating the island class for island objects 
 """
+import agent
 
 class islands:
     def __init__(self):
-        self.number = 0
+        self.location = 0
         self.treasure = False
         self.terminal = False
         
@@ -22,3 +23,4 @@ class islands:
         else:
             return False
         
+   
