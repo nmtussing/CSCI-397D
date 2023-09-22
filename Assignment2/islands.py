@@ -16,6 +16,7 @@ class islands:
             return True
         else:   
             return False
+        
     
     def isTerminal(self):
         if self.terminal == True:

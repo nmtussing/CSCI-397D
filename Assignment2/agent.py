@@ -14,6 +14,6 @@ class agent:
     def move(self):
         nextMove = None
         
-    @property
+    '''@property
     def getReward(self):
-        return self.reward
+        return self.reward'''
