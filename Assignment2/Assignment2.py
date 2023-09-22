@@ -34,17 +34,16 @@ actionset = ['dig','moveNext']
 #Creating instance of the probability matrix where the first column is the island number
 #and second column is the probability to dig, and the remaining columns are the probability to 
 #move to the other islands
-
 probabilityMatrix = [
     [1, 0.1, 0, 0.9, 0, 0, 0, 0, 0, 0, 0, 0],
-    [2, 0.1],
-    [3, 0.1],
-    [4, 0.1],
-    [5, 0.1],
-    [6, 0.1],
-    [7, 0.1],
-    [8, 0.1],
-    [9, 0.1],
+    [2, 0.1, 0, 0, 0.9, 0, 0, 0, 0, 0, 0, 0],
+    [3, 0.1, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0.45],
+    [4, 0.1, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0.45],
+    [5, 0.1, 0, 0, 0, 0, 0, 0.9, 0, 0, 0, 0],
+    [6, 0.1, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0.45],
+    [7, 0.1, 0, 0, 0, 0, 0, 0, 0, 0.90, 0, 0],
+    [8, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0.45],
+    [9, 0.1, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45],
     ]
 
 if __name__ == "__main__":
