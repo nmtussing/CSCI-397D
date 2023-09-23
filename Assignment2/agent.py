@@ -10,5 +10,6 @@ class agent:
         self.reward = 0
         self.location = 1
         self.action = None
+        self.treasureFound = 0
     
  

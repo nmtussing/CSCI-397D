@@ -47,24 +47,46 @@ probabilityMatrix = [
     [9, 0.1, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45],
     ]
 
+def dig(bot, island):
+    if island.hasTreasure() == True:
+        island.treasure = False
+        bot.reward += 10
+        bot.treasureFound += 1
+        return True
+    if island.hasTreasure():
+        return False
+
 def runGame(steps):
     actions = []
     agent2 = agent.agent()
     agent2.location = 1
-    for i in range(25):
+    currentIsland = 1
+    for i in range(steps):
         choice = random.uniform(0.0,1.0)
+        if agent2.location == 10:
+            return actions
         if choice <= 0.1:
-            pass
+            dig(agent2, island1)
+            actions.append("Dig")
+        if choice > 0.1:
+            for i in range (2,11):
+                if probabilityMatrix[currentIsland][i] > 0 and probabilityMatrix[currentIsland][i] <= choice:
+                    currentIsland = i-2
+                    agent2.location = i-2
+                    actions.append(f"Moved to island {currentIsland}")
+                if probabilityMatrix[currentIsland][i] > 0 and probabilityMatrix[currentIsland][i] >= choice:
+                    currentIsland = i-2  
+                    agent2.location = i-2
+                    actions.append(f"Moved to island {currentIsland}")
+        if currentIsland == 10:
+            actions.append("Terminal state")
+            return actions
+    return actions
             
-        
+                       
         
 
 if __name__ == "__main__":
-    agent1 = agent.agent()
-    print(agent1.location)
-    agent1.location = 10
-    print(agent1.location)
-    print(island6.hasTreasure())
-    value = probabilityMatrix
-    print(probabilityMatrix[5][0])
+    runGame(25)
     
+   
