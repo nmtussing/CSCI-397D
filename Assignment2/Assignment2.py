@@ -36,15 +36,15 @@ actionset = ['dig','moveNext']
 #and second column is the probability to dig, and the remaining columns are the probability to 
 #move to the other islands
 probabilityMatrix = [
-    [1, 0.1, 0, 0.9, 0, 0, 0, 0, 0, 0, 0, 0],
-    [2, 0.1, 0, 0, 0.9, 0, 0, 0, 0, 0, 0, 0],
-    [3, 0.1, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0.45],
-    [4, 0.1, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0.45],
-    [5, 0.1, 0, 0, 0, 0, 0, 0.9, 0, 0, 0, 0],
-    [6, 0.1, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0.45],
-    [7, 0.1, 0, 0, 0, 0, 0, 0, 0, 0.90, 0, 0],
-    [8, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0.45],
-    [9, 0.1, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45],
+    [0.1, 0, 0.9, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0.1, 0, 0, 0.9, 0, 0, 0, 0, 0, 0, 0],
+    [0.1, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0.45],
+    [0.1, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0.45],
+    [0.1, 0, 0, 0, 0, 0, 0.9, 0, 0, 0, 0],
+    [0.1, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0.45],
+    [0.1, 0, 0, 0, 0, 0, 0, 0, 0.90, 0, 0],
+    [0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0.45],
+    [0.1, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45],
     ]
 
 def dig(bot, island):
@@ -65,10 +65,14 @@ def runGame(steps):
         choice = random.uniform(0.0,1.0)
         if agent2.location == 10:
             return actions
-        if choice <= 0.1:
+        ch
+        
+        """if choice <= 0.1:
             dig(agent2, island1)
             actions.append("Dig")
         if choice > 0.1:
+    
+            
             for i in range (2,11):
                 if probabilityMatrix[currentIsland][i] > 0 and probabilityMatrix[currentIsland][i] <= choice:
                     currentIsland = i-2
@@ -77,7 +81,7 @@ def runGame(steps):
                 if probabilityMatrix[currentIsland][i] > 0 and probabilityMatrix[currentIsland][i] >= choice:
                     currentIsland = i-2  
                     agent2.location = i-2
-                    actions.append(f"Moved to island {currentIsland}")
+                    actions.append(f"Moved to island {currentIsland}")"""
         if currentIsland == 10:
             actions.append("Terminal state")
             return actions
@@ -86,7 +90,12 @@ def runGame(steps):
                        
         
 
-if __name__ == "__main__":
-    runGame(25)
+if __name__ == "__main__":  
+    moves = ["dig", "Move-Isalnd1","Move-Isalnd2","Move-Isalnd3","Move-Isalnd4","Move-Isalnd5","Move-Isalnd6","Move-Isalnd7","Move-Isalnd8","Move-Isalnd9","Move-Isalnd10"]
+    probabilities = [0.1, 0.2, 0.3, 0.2, 0.2]
+
+    # Use random.choices() to select an element based on probabilities
+    random_element = random.choices(elements, probabilities)[0]
+    print(random_element)
     
    
