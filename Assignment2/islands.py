@@ -10,7 +10,8 @@ class islands:
         self.location = 0
         self.treasure = False
         self.terminal = False
-        
+        self.name = ""
+
     def hasTreasure(self):
         if self.treasure == True:
             return True

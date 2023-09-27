@@ -30,8 +30,9 @@ island9.location = 9
 island9.treasure = True
 island10 = islands.islands()
 island10.location = 10
+island10.isTerminal = True
 
-actionset = ['dig','moveNext']
+moves = ["dig", island1, island2, island3, island4, island5, island6, island7, island8, island9, island10]
 #Creating instance of the probability matrix where the first column is the island number
 #and second column is the probability to dig, and the remaining columns are the probability to 
 #move to the other islands
@@ -47,6 +48,7 @@ probabilityMatrix = [
     [0.1, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45],
     ]
 
+# Dig helper function
 def dig(bot, island):
     if island.hasTreasure() == True:
         island.treasure = False
@@ -56,46 +58,46 @@ def dig(bot, island):
     if island.hasTreasure():
         return False
 
+# Function to run the simulation based on desired steps 
 def runGame(steps):
     actions = []
-    agent2 = agent.agent()
-    agent2.location = 1
-    currentIsland = 1
+    mainAgent = agent.agent()
+    currentIsland = island1
     for i in range(steps):
-        choice = random.uniform(0.0,1.0)
-        if agent2.location == 10:
-            return actions
-        ch
-        
-        """if choice <= 0.1:
-            dig(agent2, island1)
-            actions.append("Dig")
-        if choice > 0.1:
-    
-            
-            for i in range (2,11):
-                if probabilityMatrix[currentIsland][i] > 0 and probabilityMatrix[currentIsland][i] <= choice:
-                    currentIsland = i-2
-                    agent2.location = i-2
-                    actions.append(f"Moved to island {currentIsland}")
-                if probabilityMatrix[currentIsland][i] > 0 and probabilityMatrix[currentIsland][i] >= choice:
-                    currentIsland = i-2  
-                    agent2.location = i-2
-                    actions.append(f"Moved to island {currentIsland}")"""
-        if currentIsland == 10:
+        #choice = random.uniform(0.0,1.0)
+        if currentIsland == island10:
             actions.append("Terminal state")
             return actions
+        currentProbabilities =  probabilityMatrix[testAgent.location-1]
+        nextMove = random.choices(moves, currentProbabilities)[0]
+        actions.append(nextMove)
+        if nextMove == "dig":
+            dig(mainAgent,currentIsland)
+        else:
+            currentIsland = nextMove
+            actions.append(f"Moved to {currentIsland}")
     return actions
             
                        
         
 
 if __name__ == "__main__":  
-    moves = ["dig", "Move-Isalnd1","Move-Isalnd2","Move-Isalnd3","Move-Isalnd4","Move-Isalnd5","Move-Isalnd6","Move-Isalnd7","Move-Isalnd8","Move-Isalnd9","Move-Isalnd10"]
-    probabilities = [0.1, 0.2, 0.3, 0.2, 0.2]
-
+   
+    testAgent =  agent.agent()
+    island100 = islands.islands()
+    island100.name = "island100"
+    currentIs = island100
     # Use random.choices() to select an element based on probabilities
-    random_element = random.choices(elements, probabilities)[0]
-    print(random_element)
+    testAgent1 = agent.agent()
+    currentProbabilities =  probabilityMatrix[testAgent1.location-1]
+    print(currentProbabilities)
+    n = random.choices(moves, currentProbabilities)[0]
+    a = []
+    a.append(f"Moved to {island100.name}")
+    
+    print(n)
+    print(a)
+    
+    runGame(25)
     
    
