@@ -9,27 +9,37 @@ import islands
 # Creating the environment 
 island1 = islands.islands()
 island1.location = 1
+island1.name = "island1"
 island2 = islands.islands()
 island2.location = 2
+island2.name = "island2"
 island3 = islands.islands()
 island3.location = 3
+island3.name = "island3"
 island3.treasure = True
 island4 = islands.islands()
 island4.location = 4
+island4.name = "island4"
 island5 = islands.islands()
 island5.location = 5
+island5.name = "island5"
 island6 = islands.islands()
 island6.location = 6
+island6.name = "island6"
 island6.treasure = True
 island7 = islands.islands()
 island7.location = 7
+island7.name = "island7"
 island8 = islands.islands()
 island8.location = 8
+island8.name = "island8"
 island9 = islands.islands()
 island9.location = 9
+island9.name = "island9"
 island9.treasure = True
 island10 = islands.islands()
 island10.location = 10
+island10.name = "island10"
 island10.isTerminal = True
 
 moves = ["dig", island1, island2, island3, island4, island5, island6, island7, island8, island9, island10]
@@ -78,12 +88,12 @@ def runGame(steps):
             actions.append(f"Moved to {currentIsland}")
     return actions
             
-                       
+                     
         
 
 if __name__ == "__main__":  
    
-    testAgent =  agent.agent()
+    """testAgent =  agent.agent()
     island100 = islands.islands()
     island100.name = "island100"
     currentIs = island100
@@ -96,8 +106,24 @@ if __name__ == "__main__":
     a.append(f"Moved to {island100.name}")
     
     print(n)
-    print(a)
+    print(a)"""
+    actionsTaken = []
+    agentMain = agent.agent() 
+    agentMain.location = 1 
+    currentLocation = island1
     
-    runGame(25)
-    
-   
+    for i in range(25):
+        if agentMain.location == 10:
+            actionsTaken.append("Reached Terminal Island")
+            print(actionsTaken)
+            break
+        currentProbabilities =  probabilityMatrix[agentMain.location-1]
+        nextMove = random.choices(moves, currentProbabilities)[0]
+        if nextMove == "dig":
+            dig(agentMain,currentLocation)
+            actionsTaken.append("dig")
+        else:
+            actionsTaken.append(f"Moved to {currentLocation.name}")
+            agentMain.location = currentLocation.location
+            currentLocation = nextMove
+    print(actionsTaken)
