@@ -1,7 +1,8 @@
 """
 Assignment2.py
 Author: Nicholas Tussing
-Program to run the MDP with 10 states, truncated to 25 steps
+Program to run the MDP with 10 states, truncated to 25 steps,
+through 10 episodes.
 """
 import random
 import  agent
@@ -70,7 +71,7 @@ def dig(bot, island):
 
 # Function to run the simulation based on desired steps 
 def runGame(steps):
-    actions = []
+    """actions = []
     mainAgent = agent.agent()
     currentIsland = island1
     for i in range(steps):
@@ -86,10 +87,29 @@ def runGame(steps):
         else:
             currentIsland = nextMove
             actions.append(f"Moved to {currentIsland}")
-    return actions
+    return actions"""
+    
+    actionsTaken = []
+    agentMain = agent.agent() 
+    agentMain.location = 1 
+    currentLocation = island1
+    
+    for i in range(steps):
+        if agentMain.location == 10:
+            actionsTaken.append("Reached Terminal Island")
+            return actionsTaken
             
-                     
-        
+        currentProbabilities =  probabilityMatrix[agentMain.location-1]
+        nextMove = random.choices(moves, currentProbabilities)[0]
+        if nextMove == "dig":
+            dig(agentMain,currentLocation)
+            actionsTaken.append("dig")
+        else:
+            actionsTaken.append(f"Moved to {currentLocation.name}")
+            currentLocation = nextMove
+            agentMain.location = currentLocation.location 
+    return actionsTaken
+            
 
 if __name__ == "__main__":  
    
@@ -107,7 +127,8 @@ if __name__ == "__main__":
     
     print(n)
     print(a)"""
-    actionsTaken = []
+    
+    """actionsTaken = []
     agentMain = agent.agent() 
     agentMain.location = 1 
     currentLocation = island1
@@ -124,6 +145,7 @@ if __name__ == "__main__":
             actionsTaken.append("dig")
         else:
             actionsTaken.append(f"Moved to {currentLocation.name}")
-            agentMain.location = currentLocation.location
             currentLocation = nextMove
-    print(actionsTaken)
+            agentMain.location = currentLocation.location 
+    print(actionsTaken)"""
+    print(runGame(25))
