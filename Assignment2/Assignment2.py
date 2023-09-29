@@ -63,32 +63,15 @@ probabilityMatrix = [
 def dig(bot, island):
     if island.hasTreasure() == True:
         island.treasure = False
-        bot.reward += 10
+        bot.reward += 2
         bot.treasureFound += 1
         return True
     if island.hasTreasure():
         return False
 
 # Function to run the simulation based on desired steps 
-def runGame(steps):
-    """actions = []
-    mainAgent = agent.agent()
-    currentIsland = island1
-    for i in range(steps):
-        #choice = random.uniform(0.0,1.0)
-        if currentIsland == island10:
-            actions.append("Terminal state")
-            return actions
-        currentProbabilities =  probabilityMatrix[testAgent.location-1]
-        nextMove = random.choices(moves, currentProbabilities)[0]
-        actions.append(nextMove)
-        if nextMove == "dig":
-            dig(mainAgent,currentIsland)
-        else:
-            currentIsland = nextMove
-            actions.append(f"Moved to {currentIsland}")
-    return actions"""
-    
+def runGame(steps, gamma):
+     
     actionsTaken = []
     agentMain = agent.agent() 
     agentMain.location = 1 
@@ -97,6 +80,10 @@ def runGame(steps):
     for i in range(steps):
         if agentMain.location == 10:
             actionsTaken.append("Reached Terminal Island")
+            agentMain.reward += 5
+            if agentMain.treasureFound == 3:
+                agentMain.reward += 15
+            print(agentMain.reward)
             return actionsTaken
             
         currentProbabilities =  probabilityMatrix[agentMain.location-1]
@@ -108,44 +95,12 @@ def runGame(steps):
             actionsTaken.append(f"Moved to {currentLocation.name}")
             currentLocation = nextMove
             agentMain.location = currentLocation.location 
+            agentMain.reward -= 1
+    print(agentMain.reward)
     return actionsTaken
             
 
 if __name__ == "__main__":  
-   
-    """testAgent =  agent.agent()
-    island100 = islands.islands()
-    island100.name = "island100"
-    currentIs = island100
-    # Use random.choices() to select an element based on probabilities
-    testAgent1 = agent.agent()
-    currentProbabilities =  probabilityMatrix[testAgent1.location-1]
-    print(currentProbabilities)
-    n = random.choices(moves, currentProbabilities)[0]
-    a = []
-    a.append(f"Moved to {island100.name}")
+
+    print(runGame(25, 0))
     
-    print(n)
-    print(a)"""
-    
-    """actionsTaken = []
-    agentMain = agent.agent() 
-    agentMain.location = 1 
-    currentLocation = island1
-    
-    for i in range(25):
-        if agentMain.location == 10:
-            actionsTaken.append("Reached Terminal Island")
-            print(actionsTaken)
-            break
-        currentProbabilities =  probabilityMatrix[agentMain.location-1]
-        nextMove = random.choices(moves, currentProbabilities)[0]
-        if nextMove == "dig":
-            dig(agentMain,currentLocation)
-            actionsTaken.append("dig")
-        else:
-            actionsTaken.append(f"Moved to {currentLocation.name}")
-            currentLocation = nextMove
-            agentMain.location = currentLocation.location 
-    print(actionsTaken)"""
-    print(runGame(25))
