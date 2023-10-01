@@ -90,7 +90,8 @@ def runGame(steps, gamma):
             if agentMain.treasureFound == 3:
                 agentMain.reward += 15*gamma**i
             actionsTaken.append(f"Step {i} & Final Reward: Reached Terminal Island & {agentMain.reward}")
-            return actionsTaken
+            print(actionsTaken)
+            return "Agent's cumulative reward " + str(agentMain.reward)
             
         currentProbabilities =  probabilityMatrix[agentMain.location-1]
         nextMove = random.choices(moves, currentProbabilities)[0]
@@ -106,13 +107,13 @@ def runGame(steps, gamma):
             agentMain.reward -= 1*gamma**i
             actionsTaken.append(f"Step {i} Action & Reward: Moved to {currentLocation.name} & {agentMain.reward}")
     print(actionsTaken)
-    return agentMain.reward
+    return "Agent's cumulative reward " + str(agentMain.reward)
 
             
 
 if __name__ == "__main__":  
 
-    print(runGame(25, .9))
+    #print(runGame(25, .9))
     print(runEpisode(25,.9,10))
 
     
