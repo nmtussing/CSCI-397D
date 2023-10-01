@@ -97,6 +97,7 @@ def runGame(steps, gamma):
         if nextMove == "dig":
             if currentLocation.hasTreasure == True:
                 agentMain.reward += 15*gamma**i
+            
             dig(agentMain,currentLocation)
             actionsTaken.append(f"Step {i+1} Action & Reward: dig & {agentMain.reward}")
         else:
