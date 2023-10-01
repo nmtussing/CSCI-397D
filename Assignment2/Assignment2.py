@@ -84,7 +84,7 @@ def runGame(steps, gamma):
     agentMain.location = 1 
     currentLocation = island1
     
-    for i in range(1,steps+1):
+    for i in range(steps):
         if agentMain.location == 10:
             agentMain.reward += 5*gamma**i
             if agentMain.treasureFound == 3:
