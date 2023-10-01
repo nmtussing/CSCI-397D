@@ -63,11 +63,17 @@ probabilityMatrix = [
 def dig(bot, island):
     if island.hasTreasure() == True:
         island.treasure = False
-        bot.reward += 2
+        #bot.reward += 2
         bot.treasureFound += 1
         return True
     if island.hasTreasure():
         return False
+
+# Function for conducting the episodes 
+def runEpisode(steps, gamma, episodes):
+    for i in range(episodes):
+        print(runGame(steps,gamma))
+
 
 # Function to run the simulation based on desired steps 
 def runGame(steps, gamma):
@@ -79,28 +85,33 @@ def runGame(steps, gamma):
     
     for i in range(steps):
         if agentMain.location == 10:
-            actionsTaken.append("Reached Terminal Island")
-            agentMain.reward += 5
+            agentMain.reward += 5*gamma**i
             if agentMain.treasureFound == 3:
-                agentMain.reward += 15
+                agentMain.reward += 15*gamma**i
+            actionsTaken.append(f"Step {i+1} & Final Reward: Reached Terminal Island & {agentMain.reward}")
             print(agentMain.reward)
             return actionsTaken
             
         currentProbabilities =  probabilityMatrix[agentMain.location-1]
         nextMove = random.choices(moves, currentProbabilities)[0]
         if nextMove == "dig":
+            if currentLocation.hasTreasure == True:
+                agentMain.reward += 15*gamma**i
             dig(agentMain,currentLocation)
-            actionsTaken.append("dig")
+            actionsTaken.append(f"Step {i+1} Action & Reward: dig & {agentMain.reward}")
         else:
-            actionsTaken.append(f"Moved to {currentLocation.name}")
             currentLocation = nextMove
             agentMain.location = currentLocation.location 
-            agentMain.reward -= 1
-    print(agentMain.reward)
-    return actionsTaken
+            agentMain.reward -= 1*gamma**i
+            actionsTaken.append(f"Step {i+1} Action & Reward: Moved to {currentLocation.name} & {agentMain.reward}")
+    print(actionsTaken)
+    return agentMain.reward
+
             
 
 if __name__ == "__main__":  
 
-    print(runGame(25, 0))
+    print(runGame(25, .9))
+    print(runEpisode(25,.9,10))
+
     

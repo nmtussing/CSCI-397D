@@ -7,7 +7,7 @@ traversing the environment
 import islands
 class agent:
     def __init__(self) :
-        self.reward = 0
+        self.reward = 0.0
         self.location = 1
         self.action = None
         self.treasureFound = 0
