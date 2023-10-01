@@ -71,7 +71,8 @@ def dig(bot, island):
 
 # Function for conducting the episodes 
 def runEpisode(steps, gamma, episodes):
-    for i in range(episodes):
+    for i in range(1,episodes+1):
+        print(f"Episode {i}:")
         print(runGame(steps,gamma))
 
 
@@ -83,13 +84,12 @@ def runGame(steps, gamma):
     agentMain.location = 1 
     currentLocation = island1
     
-    for i in range(steps):
+    for i in range(1,steps+1):
         if agentMain.location == 10:
             agentMain.reward += 5*gamma**i
             if agentMain.treasureFound == 3:
                 agentMain.reward += 15*gamma**i
-            actionsTaken.append(f"Step {i+1} & Final Reward: Reached Terminal Island & {agentMain.reward}")
-            print(agentMain.reward)
+            actionsTaken.append(f"Step {i} & Final Reward: Reached Terminal Island & {agentMain.reward}")
             return actionsTaken
             
         currentProbabilities =  probabilityMatrix[agentMain.location-1]
@@ -99,12 +99,12 @@ def runGame(steps, gamma):
                 agentMain.reward += 15*gamma**i
             
             dig(agentMain,currentLocation)
-            actionsTaken.append(f"Step {i+1} Action & Reward: dig & {agentMain.reward}")
+            actionsTaken.append(f"Step {i} Action & Reward: dig & {agentMain.reward}")
         else:
             currentLocation = nextMove
             agentMain.location = currentLocation.location 
             agentMain.reward -= 1*gamma**i
-            actionsTaken.append(f"Step {i+1} Action & Reward: Moved to {currentLocation.name} & {agentMain.reward}")
+            actionsTaken.append(f"Step {i} Action & Reward: Moved to {currentLocation.name} & {agentMain.reward}")
     print(actionsTaken)
     return agentMain.reward
 
