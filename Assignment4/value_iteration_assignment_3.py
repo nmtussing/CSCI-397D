@@ -40,7 +40,7 @@ class Agent:
         return action_value
 
     def select_action(self, state):
-        action_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n]
+        action_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n)]
         return np.argmax(action_values)
 
     def play_episode(self, env):
