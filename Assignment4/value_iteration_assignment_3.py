@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import collections
 import numpy as np
 
@@ -11,16 +11,18 @@ class Agent:
     def __init__(self):
         self.env = self.create_env()
         self.state = self.env.reset()
-        self.transits = collections.defaultdict(collections.Counter)
         self.rewards = collections.defaultdict(float)
+        self.transits = collections.defaultdict(collections.Counter)
+        self.values = np.zeros(self.env.observation_space.n)
 
     @staticmethod
     def create_env():
         return gym.make(ENV_NAME)
 
     def update_transits_rewards(self, state, action, new_state, reward):
-        self.transits[state, action][new_state] += 1
-        self.rewards[state, action, new_state] = reward
+        key = (state, action)
+        self.rewards[key, new_state] = reward
+        self.transits[key][new_state] += 1
 
     def play_n_random_steps(self, count):
         for _ in range(count):
@@ -29,24 +31,45 @@ class Agent:
             self.update_transits_rewards(self.state, action, new_state, reward)
             self.state = self.env.reset() if is_done else new_state
 
+    def print_value_table(self):
+        print("Value Table:")
+        print(self.values.reshape((4, 4)))
+
+    def extract_policy(self):
+        policy = np.zeros(self.env.observation_space.n, dtype=int)
+        for state in range(self.env.observation_space.n):
+            action_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n)]
+            policy[state] = np.argmax(action_values)
+        return policy
+
+    def print_policy(self, policy):
+        action_names = ["Left", "Down", "Right", "Up"]
+        policy_grid = np.array([action_names[policy[state]] for state in range(self.env.observation_space.n)])
+        print("Policy:")
+        print(policy_grid.reshape((4, 4)))
+
     def calc_action_value(self, state, action):
-        total_transitions = sum(self.transits[state, action].values())
+        target_counts = self.transits[state, action]
+        total_transitions = sum(target_counts.values())
         action_value = 0
 
-        for new_state, count in self.transits[state, action].items():
+        for new_state, count in target_counts.items():
             reward = self.rewards[state, action, new_state]
-            action_value += (count / total_transitions) * (reward + GAMMA * self.value_table[new_state])
+            action_value += (count / total_transitions) * (reward + GAMMA * self.values[new_state])
 
         return action_value
 
     def select_action(self, state):
-        action_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n)]
-        return np.argmax(action_values)
+        best_action, best_value = None, None
+        for action in range(self.env.action_space.n):
+            action_value = self.calc_action_value(state, action)
+            if best_value is None or action_value > best_value:
+                best_action, best_value = action, action_value
+        return best_action
 
     def play_episode(self, env):
         total_reward = 0
         state = env.reset()
-        
         while True:
             action = self.select_action(state)
             new_state, reward, is_done, _ = env.step(action)
@@ -54,35 +77,12 @@ class Agent:
             state = new_state
             if is_done:
                 break
-        
         return total_reward
 
     def value_iteration(self):
-        num_states = self.env.observation_space.n
-        num_actions = self.env.action_space.n
-        self.value_table = np.zeros(num_states)
-        
-        for _ in range(1000):  # You can adjust the number of iterations
-            new_value_table = np.zeros(num_states)
-            for state in range(num_states):
-                action_values = [self.calc_action_value(state, action) for action in range(num_actions)]
-                new_value_table[state] = max(action_values)
-            self.value_table = new_value_table
-
-    def print_value_table(self):
-        print("Value Table:")
-        print(self.value_table.reshape((4, 4)))  # Assuming a 4x4 grid
-
-    def extract_policy(self):
-        policy = np.zeros(self.env.observation_space.n)
         for state in range(self.env.observation_space.n):
-            action_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n)]
-            policy[state] = np.argmax(action_values)
-        return policy
-
-    def print_policy(self, policy):
-        print("Policy:")
-        print(policy.reshape((4, 4)))  # Assuming a 4x4 grid
+            state_values = [self.calc_action_value(state, action) for action in range(self.env.action_space.n)]
+            self.values[state] = max(state_values)
 
 if __name__ == "__main__":
     test_env = Agent.create_env()
@@ -94,12 +94,17 @@ if __name__ == "__main__":
         iter_no += 1
         agent.play_n_random_steps(100)
         agent.value_iteration()
-        reward = agent.play_episode(test_env)
-        
+
+        total_reward = 0
+        for _ in range(TEST_EPISODES):
+            total_reward += agent.play_episode(test_env)
+
+        reward = total_reward / TEST_EPISODES
+
         if reward > best_reward:
             print("Best reward updated %.3f -> %.3f" % (best_reward, reward))
             best_reward = reward
-        
+
         if reward > 0.80:
             print("Solved in %d iterations!" % iter_no)
             agent.print_value_table()
