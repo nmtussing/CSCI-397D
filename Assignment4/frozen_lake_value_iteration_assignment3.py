@@ -65,12 +65,10 @@ class Agent:
 
     def print_value_table(self):
         # print the value table in a 2d matrix format
-        count = 0
+
         table = ""
         for value in self.values:
-            if count % 4 == 0:
-                table += "\n"
-            table += (" %.3f " % value)
+            table += value
             count+= 1
         print(table)
         pass
@@ -98,7 +96,7 @@ class Agent:
         for action in policy:
             if count % 4 ==0:
                 pol += "\n"
-            pol += (" {} ".format(actionSpace[action]))
+            pol += (f"{actionSpace[action]}")
         print(pol)
         # nested for loop to print the actions in 2d matrix format
         pass
