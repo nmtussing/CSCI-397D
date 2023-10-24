@@ -17,15 +17,14 @@ class Agent:
     
         # Define state
         self.state = None
-        self.stateNum = self.env.observation_space
-        self.actionNum = self.env.action_space
+        self.stateNum = self.env.observation_space.n
+        self.actionNum = self.env.action_space.n
 
         # Define rewards
         self.rewards =  collections.defaultdict(lambda: collections.defaultdict(float)) 
 
         # Define transits
         self.transits = collections.defaultdict(lambda: collections.Counter())
-        self.transitions = np.zeros((self.stateNum, self.actionNum, self.stateNum))
         # Define values
         self.values = np.zeros(self.stateNum)
         pass
