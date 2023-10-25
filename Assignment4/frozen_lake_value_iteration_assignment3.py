@@ -1,5 +1,6 @@
+from multiprocessing.pool import TERMINATE
 import sys
-import gymnasium as gym
+import gym
 import collections
 import numpy as np
 
@@ -32,7 +33,7 @@ class Agent:
     @staticmethod
     def create_env():
         # Return created environment
-        return gym.make(ENV_NAME, is_slippery = True)
+        return gym.make(ENV_NAME, is_slippery = False)
         pass
 
     def update_transits_rewards(self, state, action, new_state, reward):
@@ -54,7 +55,7 @@ class Agent:
             randAction = self.env.action_space.sample()
 
             # step through the environment
-            observation, reward, done, info = self.env.step(randAction)
+            observation, reward, done, truncated, _ = self.env.step(randAction)
 
             # update the transits rewards
             self.update_transits_rewards(self.state, randAction, observation, reward)
@@ -122,7 +123,7 @@ class Agent:
         bestAction = -sys.maxsize-1
         bestValue = -sys.maxsize-1
         # For action in the range of actions
-        for action in self.actionNum:
+        for action in range(self.actionNum):
 
             # calculate the action value
             actionValue = self.calc_action_value(state,action)
@@ -151,7 +152,7 @@ class Agent:
             # select an action
             action = self.select_action(state)
             # take a step
-            observation, r, done , info = env.step(action)
+            observation, r, done , info, _ = env.step(action)
 
             # if state is multiple
             if state == observation:
@@ -179,7 +180,7 @@ class Agent:
 
     def value_iteration(self):
         # for each state
-        for state in self.stateNum:
+        for state in range(self.stateNum):
 
             # set state_values equalt to a list of calc_action_value for every action
             state_values = [self.calc_action_value(state,j) for j in range(self.actionNum)]
