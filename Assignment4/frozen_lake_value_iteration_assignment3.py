@@ -1,5 +1,4 @@
 from multiprocessing.pool import TERMINATE
-import sys
 import gym
 import collections
 import numpy as np
@@ -9,7 +8,7 @@ ENV_NAME = "FrozenLake-v1"
 GAMMA = 0.9
 TEST_EPISODES = 20
 SEED = 42
-
+#ACTIONSPACE = {1: "Up", 2:"Down",3:"Left",4:"Right"}
 
 class Agent:
     def __init__(self):
@@ -22,12 +21,13 @@ class Agent:
         self.actionNum = self.env.action_space.n
 
         # Define rewards
-        self.rewards =  collections.defaultdict(lambda: collections.defaultdict(float)) 
+        self.rewards =  collections.defaultdict(lambda: collections.defaultdict(lambda: 0)) 
 
         # Define transits
         self.transits = collections.defaultdict(lambda: collections.Counter())
         # Define values
-        self.values = np.zeros(self.stateNum)
+        #self.values = np.zeros(self.stateNum)
+        self.values = [0.0]*self.stateNum
         pass
 
     @staticmethod
@@ -61,52 +61,65 @@ class Agent:
             self.update_transits_rewards(self.state, randAction, observation, reward)
             # update the state
             self.state = observation
+
+            self.state = observation
+            if done == True:
+                self.env.reset()
+                self.state=0
+            
             pass
 
     def print_value_table(self):
         # print the value table in a 2d matrix format
-
+       
+        count = 0
         table = ""
         for value in self.values:
-            table += value
-            count+= 1
+            table += "{:<8}".format(value)  #adjust the width as needed
+            count += 1
+            if count % 4 == 0:
+                table += "\n"  # new line for every 4 values
         print(table)
         pass
-
     def extract_policy(self):
         # Define policy as an empty list
         policy = []
 
-        # for every state
+        # For every state
         for i in range(self.stateNum):
+            # Select the action
+                action = self.select_action(i)
+            # Append the action to the policy
+                policy.append(action)
 
-            # select the action
-            action = self.select_action(i)
-            # append action to the policy
-            policy.append(action)
-        # return policy
+        # Return the policy
         return policy
-        pass
+        
 
     def print_policy(self, policy):
         # define actions in NL
-        actionSpace = {1: "Up", 2:"Down",3:"Left",4:"Right"}
+        #actionSpace = {1: "Up", 2:"Down",3:"Left",4:"Right"}
+        ACTIONSPACE = {1: "Up", 2: "Down", 3: "Left", 4: "Right"}
+
         count = 0
         pol = ""
-        for action in policy:
-            if count % 4 ==0:
-                pol += "\n"
-            pol += (f"{actionSpace[action]}")
-        print(pol)
-        # nested for loop to print the actions in 2d matrix format
-        pass
 
+    # Loop through the policy and create the 2D matrix format
+        for action in policy:
+            if count % 4 == 0 and count != 0:
+                pol += "\n"  # Start a new line for every 4 actions
+            pol += f"{ACTIONSPACE[action]} "
+            count += 1
+
+        print(pol)
     def calc_action_value(self, state, action):
         # get target counts which access transits by state, action
         targetCount = self.transits[(state,action)]
 
         # get the sum of all the counts
-        sumCount = sum(targetCount.values())
+        sumCount = 0
+        for value in targetCount.values():
+            sumCount += value
         finalSum = 0
         # for each target state
         for targetState in targetCount:
@@ -120,18 +133,18 @@ class Agent:
 
     def select_action(self, state):
         # define best action and best value
-        bestAction = -sys.maxsize-1
-        bestValue = -sys.maxsize-1
+        bestAction = float('-inf')
+        bestValue = float('-inf')
         # For action in the range of actions
-        for action in range(self.actionNum):
+        for i in range(self.actionNum):
 
             # calculate the action value
-            actionValue = self.calc_action_value(state,action)
+            actionValue = self.calc_action_value(state,i)
 
             # if best value is less than action value
             if bestValue < actionValue:
                 # update best value and best action
-                bestAction = action
+                bestAction = i
                 bestValue = actionValue
         # return best actiodef print_value_table(self):
         #print_value_table(self)
@@ -142,13 +155,13 @@ class Agent:
     def play_episode(self, env):
         # define reward and state
         env.reset()
-        reward = 0
+        #reward = 0
         rewardFinal = 0
         state = 0
         count = 0
         # While loop
         while True:
-
+            reward = 0
             # select an action
             action = self.select_action(state)
             # take a step
@@ -180,13 +193,15 @@ class Agent:
 
     def value_iteration(self):
         # for each state
-        for state in range(self.stateNum):
+        for i in range(self.stateNum):
 
             # set state_values equalt to a list of calc_action_value for every action
-            state_values = [self.calc_action_value(state,j) for j in range(self.actionNum)]
+            state_values = []
+            for j in range(self.actionNum):
+                state_values.append(self.calc_action_value(i, j))
 
         # set self values to the max state_values
-            self.values[state]= max(state_values)         
+            self.values[i]= max(state_values)         
 
         pass
 
@@ -202,7 +217,7 @@ if __name__ == "__main__":
         agent.play_n_random_steps(100)
         agent.value_iteration()
 
-        reward = sum([agent.play_episode(test_env)for _ in range(TEST_EPISODES)]) / TEST_EPISODES # sum of play episode for all 20 episodes / number of episodes
+        reward = sum([agent.play_episode(test_env)for i in range(TEST_EPISODES)]) / TEST_EPISODES # sum of play episode for all 20 episodes / number of episodes
         
         if reward > best_reward:
             print("Best reward updated %.3f -> %.3f" % (best_reward, reward))

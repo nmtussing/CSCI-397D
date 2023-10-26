@@ -1,0 +1,7 @@
+Though I could not unfortunately get my program to produce a proper output, I would imaging that 
+the value iteration would take much longer for the slippery=True experiment versus the slipper=False
+as the stochastic and random nature of the movement would require more iterations. The slippery=True 
+would present less challenges and would be a more straight forward convergence process as there is no
+stochastic element, but with the slippery experiment, I would imagine there would be some element of luck
+as the agent steps through the environment and has to learn how to navigate those states with that
+added element.
