@@ -14,25 +14,25 @@ class Agent:
         # Initialize the environment using gym.make with ENV_NAME
         self.environment = gym.make(ENV_NAME, is_slippery = True)
         # Set the initial state by resetting the environment
-        self.state = self.env.reset()
+        self.state = self.environment.reset()
         # Initialize a default dictionary named values for storing the Q-values
         self.values = collections.defaultdict(float)
         pass
 
     def sample_env(self):
         # Sample a random action from the environment's action space
-        randAction = self.env.action_space.sample()
+        randAction = self.environment.action_space.sample()
         # Use the sampled action to take a step in the environment
-        observation, reward, done, truncated, _ = self.env.step(randAction)
+        observation, reward, done, truncated, _ = self.environment.step(randAction)
         # If the episode ends, reset the environment and store the new state
         newState = self.state
         if done:
         
-            self.state = self.state.env.reset()
+            self.state = self.state.environment.reset()
         else:
             self.state = observation
         # Return a tuple containing the old state, action, reward, and new state
-        return (newState, action, reward, observation)
+        return (newState, randAction, reward, observation)
         pass
 
     def best_value_and_action(self, state):
@@ -41,12 +41,14 @@ class Agent:
         best_action = None
 
         # Iterate over all possible actions in the environment's action space
-        for action in self.env.action_space.n:
+        for action in range(self.environment.action_space.n):
 
         # Calculate the Q-value for each state-action pair
-            value = self.qvalues[(state, action)]
+            value = self.values[(state, action)]
         # Update best_value and best_action based on the calculated Q-value
-            if best_value < value:
+            #if best_value == None:
+            #if best_value < value or best_value == None:
+            if best_value == None or best_value < value:
                 best_value = value
                 best_action = action
         # Return best_value and best_action
@@ -78,7 +80,8 @@ class Agent:
             total_reward += reward
         # If the episode enzbreak from the loop
             if done:
-                False
+                #False
+                break
         # Otherwise, update the state using the new state
             else:
                 state =observation
