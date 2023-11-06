@@ -12,7 +12,7 @@ TEST_EPISODES = 20
 class Agent:
     def __init__(self):
         # Initialize the environment using gym.make with ENV_NAME
-        self.environment = gym.make(ENV_NAME, is_slippery = False  , new_step_api = True)
+        self.environment = gym.make(ENV_NAME, is_slippery = True  , new_step_api = True)
         # Set the initial state by resetting the environment
         self.state = self.environment.reset()
         # Initialize a default dictionary named values for storing the Q-values
