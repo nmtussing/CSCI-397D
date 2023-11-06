@@ -12,55 +12,100 @@ TEST_EPISODES = 20
 class Agent:
     def __init__(self):
         # Initialize the environment using gym.make with ENV_NAME
+        self.environment = gym.make(ENV_NAME, is_slippery = True)
         # Set the initial state by resetting the environment
+        self.state = self.env.reset()
         # Initialize a default dictionary named values for storing the Q-values
+        self.values = collections.defaultdict(float)
         pass
 
     def sample_env(self):
         # Sample a random action from the environment's action space
+        randAction = self.env.action_space.sample()
         # Use the sampled action to take a step in the environment
+        observation, reward, done, truncated, _ = self.env.step(randAction)
         # If the episode ends, reset the environment and store the new state
+        newState = self.state
+        if done:
+        
+            self.state = self.state.env.reset()
+        else:
+            self.state = observation
         # Return a tuple containing the old state, action, reward, and new state
+        return (newState, action, reward, observation)
         pass
 
     def best_value_and_action(self, state):
         # Initialize variables best_value and best_action to None
+        best_value = None
+        best_action = None
+
         # Iterate over all possible actions in the environment's action space
+        for action in self.env.action_space.n:
+
         # Calculate the Q-value for each state-action pair
+            value = self.qvalues[(state, action)]
         # Update best_value and best_action based on the calculated Q-value
+            if best_value < value:
+                best_value = value
+                best_action = action
         # Return best_value and best_action
+        return (best_value , best_action)
         pass
 
     def value_update(self, state, action, reward, new_state):
         # Call the best_value_and_action function to get the best Q-value for the new state
+        qValue = self.best_value_and_action(new_state)
+    
         # Calculate the new Q-value using the reward, gamma, and best Q-value of the new state
+        newQValue =  reward + GAMMA * qValue
         # Update the Q-value of the current state-action pair using alpha and the new Q-value
+        self.values[(state,action)]+= ALPHA * (newQValue - self.values[(state,action)])
         pass
 
     def play_episode(self, env):
         # Initialize a variable total_reward to 0.0
+        total_reward = 0.0
         # Reset the environment and store the initial state
+        state = env.reset()
         # Enter a loop that continues until the episode ends
+        while True:
         # Call the best_value_and_action function to get the best action for the current state
+            best_action =   self.best_value_and_action(state)
         # Take a step in the environment using the best action and store the new state, reward, and done flag
+            observation, reward, done, truncated, _ = self.env.step(best_action)
         # Update total_reward using the received reward
-        # If the episode ends, break from the loop
+            total_reward += reward
+        # If the episode enzbreak from the loop
+            if done:
+                False
         # Otherwise, update the state using the new state
+            else:
+                state =observation
         # Return the total reward
+        return total_reward
         pass
 
     def print_values(self):
         # Print the Q-values in a readable format
         # Hint: You can use nested loops to iterate over states and actions
+        for state in range(self.env.observation_space.n):
+            for action in range(self.env.action_space.n):
+                print(f"State {state}, Action {action}: Q-value = {self.values[state, action]}")
         pass
 
     def print_policy(self):
         # Print the policy derived from the Q-values
         # Initialize an empty dictionary named policy
+        policy = collections.defaultdict()
         # Iterate over all possible states in the environment
+        for states in range(self.env.observation_space.n):
         # Call the best_value_and_action function to get the best action for each state
+            best_action = self.best_value_and_action(states)
         # Update the policy dictionary with the state-action pair
+            policy[states] = best_action
         # Print the state and corresponding best action
+            print(f"State: {states} | Best Action {best_action}")
         # Return the policy dictionary
         pass
 
