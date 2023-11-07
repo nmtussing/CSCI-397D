@@ -97,7 +97,7 @@ State: 14 | Best Action right
 State: 15 | Best Action left
 
 slippery = False 
-Had difficulties with the slippery = false trials. The program would run seemingly indefinitely and the extent of the output
+To my surprise, I had difficulties with the slippery = false trials. The program would run seemingly indefinitely and the extent of the output
 I got was the following:
 Best reward updated 0.000 -> 0.100
 Best reward updated 0.100 -> 0.200
