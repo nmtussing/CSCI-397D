@@ -13,7 +13,7 @@ SEED = 42
 class Agent:
     def __init__(self):
         # Define env
-        self.env = self.create_env()
+        self.env = gym.make(ENV_NAME, is_slippery = False , new_step_api = True)
     
         # Define state
         self.state = None
@@ -33,7 +33,7 @@ class Agent:
     @staticmethod
     def create_env():
         # Return created environment
-        return gym.make(ENV_NAME, is_slippery = False)
+        return gym.make(ENV_NAME, is_slippery = False, new_step_api = True)
         pass
 
     def update_transits_rewards(self, state, action, new_state, reward):
@@ -46,7 +46,7 @@ class Agent:
         pass
 
     def play_n_random_steps(self, count):
-        self.env.reset()
+        #self.env.reset()
         # for loop that iterates count number of times
 
         for i in range(count):
@@ -165,7 +165,7 @@ class Agent:
             # select an action
             action = self.select_action(state)
             # take a step
-            observation, r, done , info, _ = env.step(action)
+            observation, r, done , truncated, _ = env.step(action)
 
             # if state is multiple
             if state == observation:
