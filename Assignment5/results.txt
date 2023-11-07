@@ -1,93 +1,107 @@
-The following is the output from my Q-learning implementation when slippery is true:
-Solved in 3733 iterations!
+Sippery = true
+Solved in 7908 iterations!
 
+Best reward updated 0.000 -> 0.050
+Best reward updated 0.050 -> 0.100
+Best reward updated 0.100 -> 0.150
+Best reward updated 0.150 -> 0.200
+Best reward updated 0.200 -> 0.350
+Best reward updated 0.350 -> 0.400
+Best reward updated 0.400 -> 0.450
+Best reward updated 0.450 -> 0.600
+Best reward updated 0.600 -> 0.650
+Best reward updated 0.650 -> 0.800
+Best reward updated 0.800 -> 0.900
+Solved in 7908 iterations!
+State 0, Action left: Q-value = 0.07456107232395263
+State 0, Action down: Q-value = 0.06981286373708163
+State 0, Action right: Q-value = 0.06686446532409589
+State 0, Action up: Q-value = 0.0659278351600262
+State 1, Action left: Q-value = 0.03320002545002948
+State 1, Action down: Q-value = 0.040155693295700505
+State 1, Action right: Q-value = 0.059928431544410306
+State 1, Action up: Q-value = 0.0726474119201596
+State 2, Action left: Q-value = 0.0809371353109921
+State 2, Action down: Q-value = 0.06110082828689753
+State 2, Action right: Q-value = 0.08537791099953543
+State 2, Action up: Q-value = 0.057601636969959666
+State 3, Action left: Q-value = 0.03646733502602604
+State 3, Action down: Q-value = 0.05289807268576804
+State 3, Action right: Q-value = 0.019323335999989488
+State 3, Action up: Q-value = 0.0598635863058739
+State 4, Action left: Q-value = 0.10838530008606106
+State 4, Action down: Q-value = 0.0976271227440519
+State 4, Action right: Q-value = 0.06338548577207116
+State 4, Action up: Q-value = 0.04108604195067008
+State 5, Action left: Q-value = 0.0
+State 5, Action down: Q-value = 0.0
+State 5, Action right: Q-value = 0.0
+State 5, Action up: Q-value = 0.0
+State 6, Action left: Q-value = 0.10569268068427233
+State 6, Action down: Q-value = 0.05185912670642094
+State 6, Action right: Q-value = 0.06373471635160108
+State 6, Action up: Q-value = 0.021802457010662604
+State 7, Action left: Q-value = 0.0
+State 7, Action down: Q-value = 0.0
+State 7, Action right: Q-value = 0.0
+State 7, Action up: Q-value = 0.0
+State 8, Action left: Q-value = 0.057016101417224574
+State 8, Action down: Q-value = 0.05773733758690538
+State 8, Action right: Q-value = 0.15376926942899138
+State 8, Action up: Q-value = 0.15495789952648306
+State 9, Action left: Q-value = 0.1553020123523099
+State 9, Action down: Q-value = 0.24878464479186954
+State 9, Action right: Q-value = 0.19280756160655935
+State 9, Action up: Q-value = 0.14346012072653266
+State 10, Action left: Q-value = 0.29254182171690885
+State 10, Action down: Q-value = 0.26468697098853056
+State 10, Action right: Q-value = 0.22154420107812756
+State 10, Action up: Q-value = 0.06506471344551941
+State 11, Action left: Q-value = 0.0
+State 11, Action down: Q-value = 0.0
+State 11, Action right: Q-value = 0.0
+State 11, Action up: Q-value = 0.0
+State 12, Action left: Q-value = 0.0
+State 12, Action down: Q-value = 0.0
+State 12, Action right: Q-value = 0.0
+State 12, Action up: Q-value = 0.0
+State 13, Action left: Q-value = 0.18187631368617427
+State 13, Action down: Q-value = 0.29155689598015666
+State 13, Action right: Q-value = 0.3798446792580604
+State 13, Action up: Q-value = 0.1282423673972301
+State 14, Action left: Q-value = 0.3143673644520468
+State 14, Action down: Q-value = 0.4810641159601019
+State 14, Action right: Q-value = 0.639795328339326
+State 14, Action up: Q-value = 0.3528036261082971
+State 15, Action left: Q-value = 0.0
+State 15, Action down: Q-value = 0.0
+State 15, Action right: Q-value = 0.0
+State 15, Action up: Q-value = 0.0
 
+Policy
+State: 0 | Best Action left
+State: 1 | Best Action up
+State: 2 | Best Action right
+State: 3 | Best Action up
+State: 4 | Best Action left
+State: 5 | Best Action left
+State: 6 | Best Action left
+State: 7 | Best Action left
+State: 8 | Best Action up
+State: 9 | Best Action down
+State: 10 | Best Action left
+State: 11 | Best Action left
+State: 12 | Best Action left
+State: 13 | Best Action right
+State: 14 | Best Action right
+State: 15 | Best Action left
 
-Best reward updated 0.000 -> 0.250
-Best reward updated 0.250 -> 0.300
+slippery = False 
+Had difficulties with the slippery = false trials. The program would run seemingly indefinitely and the extent of the output
+I got was the following:
+Best reward updated 0.000 -> 0.100
+Best reward updated 0.100 -> 0.200
+Best reward updated 0.200 -> 0.300
 Best reward updated 0.300 -> 0.400
 Best reward updated 0.400 -> 0.500
-Best reward updated 0.500 -> 0.650
-Best reward updated 0.650 -> 0.700
-Best reward updated 0.700 -> 0.850
-Solved in 3733 iterations!
-State 0, Action 0: Q-value = 0.025448305250175156
-State 0, Action 1: Q-value = 0.024626444895432538
-State 0, Action 2: Q-value = 0.02404815279158211
-State 0, Action 3: Q-value = 0.02246619089424512
-State 1, Action 0: Q-value = 0.014099792295706823
-State 1, Action 1: Q-value = 0.01671757781517838
-State 1, Action 2: Q-value = 0.012633164088352185
-State 1, Action 3: Q-value = 0.021733942213054927
-State 2, Action 0: Q-value = 0.03218558231972325
-State 2, Action 1: Q-value = 0.028443976621753575
-State 2, Action 2: Q-value = 0.02888562384905325
-State 2, Action 3: Q-value = 0.019609140040982524
-State 3, Action 0: Q-value = 0.004608863747102407
-State 3, Action 1: Q-value = 0.009859422834209253
-State 3, Action 2: Q-value = 0.0031169205265965923
-State 3, Action 3: Q-value = 0.010432863330989865
-State 4, Action 0: Q-value = 0.032070171661022655
-State 4, Action 1: Q-value = 0.018212654642202716
-State 4, Action 2: Q-value = 0.017099973288726124
-State 4, Action 3: Q-value = 0.020067334158785838
-State 5, Action 0: Q-value = 0.0
-State 5, Action 1: Q-value = 0.0
-State 5, Action 2: Q-value = 0.0
-State 5, Action 3: Q-value = 0.0
-State 6, Action 0: Q-value = 0.07824640278319449
-State 6, Action 1: Q-value = 0.011893431729618726
-State 6, Action 2: Q-value = 0.05551040195755192
-State 6, Action 3: Q-value = 0.006448471052263392
-State 7, Action 0: Q-value = 0.0
-State 7, Action 1: Q-value = 0.0
-State 7, Action 2: Q-value = 0.0
-State 7, Action 3: Q-value = 0.0
-State 8, Action 0: Q-value = 0.021097981257645667
-State 8, Action 1: Q-value = 0.040073265276787964
-State 8, Action 2: Q-value = 0.03278655434161465
-State 8, Action 3: Q-value = 0.0500617689060893
-State 9, Action 0: Q-value = 0.052491080956976834
-State 9, Action 1: Q-value = 0.10849790044439725
-State 9, Action 2: Q-value = 0.1071666814953122
-State 9, Action 3: Q-value = 0.026752168193613375
-State 10, Action 0: Q-value = 0.15249427028941373
-State 10, Action 1: Q-value = 0.06791864839268383
-State 10, Action 2: Q-value = 0.07883607396037133
-State 10, Action 3: Q-value = 4.701849845760002e-05
-State 11, Action 0: Q-value = 0.0
-State 11, Action 1: Q-value = 0.0
-State 11, Action 2: Q-value = 0.0
-State 11, Action 3: Q-value = 0.0
-State 12, Action 0: Q-value = 0.0
-State 12, Action 1: Q-value = 0.0
-State 12, Action 2: Q-value = 0.0
-State 12, Action 3: Q-value = 0.0
-State 13, Action 0: Q-value = 0.11728402709147345
-State 13, Action 1 Q-value = 0.11932526512373762
-State 13, Action 2: Q-value = 0.3286794541552306
-State 13, Action 3: Q-value = 0.037491210350443255
-State 14, Action 0: Q-value = 0.22626853410797226
-State 14, Action 1: Q-value = 0.14034675605384728
-State 14, Action 2: Q-value = 0.49756286960271356
-State 14, Action 3: Q-value = 0.3159859174958381
-State 15, Action 0: Q-value = 0.0
-State 15, Action 1: Q-value = 0.0
-State 15, Action 2: Q-value = 0.0
-State 15, Action 3: Q-value = 0.0
-State: 0 | Best Action (0.025448305250175156, 0)
-State: 1 | Best Action (0.021733942213054927, 3)
-State: 2 | Best Action (0.03218558231972325, 0)
-State: 3 | Best Action (0.010432863330989865, 3)
-State: 4 | Best Action (0.032070171661022655, 0)
-State: 5 | Best Action (0.0, 0)
-State: 6 | Best Action (0.07824640278319449, 0)
-State: 7 | Best Action (0.0, 0)
-State: 8 | Best Action (0.0500617689060893, 3)
-State: 9 | Best Action (0.10849790044439725, 1)
-State: 10 | Best Action (0.15249427028941373, 0)
-State: 11 | Best Action (0.0, 0)
-State: 12 | Best Action (0.0, 0)
-State: 13 | Best Action (0.3286794541552306, 2)
-State: 14 | Best Action (0.49756286960271356, 2)
-State: 15 | Best Action (0.0, 0)
+Best reward updated 0.500 -> 0.600

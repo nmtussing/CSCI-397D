@@ -6,13 +6,13 @@ from tensorboardX import SummaryWriter
 ENV_NAME = "FrozenLake-v1"
 GAMMA = 0.9
 ALPHA = 0.2
-TEST_EPISODES = 20
-
+TEST_EPISODES = 10
+ACTIONS = {0: 'left', 1: 'down', 2: 'right', 3: 'up'}
 
 class Agent:
     def __init__(self):
         # Initialize the environment using gym.make with ENV_NAME
-        self.environment = gym.make(ENV_NAME, is_slippery = True  , new_step_api = True)
+        self.environment = gym.make(ENV_NAME, is_slippery = False , new_step_api = True)
         # Set the initial state by resetting the environment
         self.state = self.environment.reset()
         # Initialize a default dictionary named values for storing the Q-values
@@ -23,7 +23,7 @@ class Agent:
         # Sample a random action from the environment's action space
         randAction = self.environment.action_space.sample()
         # Use the sampled action to take a step in the environment
-        observation, reward, done, truncated, _ = self.environment.step(randAction)
+        observation, reward, done, truncated , _  = self.environment.step(randAction)
         # If the episode ends, reset the environment and store the new state
         newState = self.state
         if done:
@@ -94,10 +94,11 @@ class Agent:
         # Hint: You can use nested loops to iterate over states and actions
         for state in range(self.environment.observation_space.n):
             for action in range(self.environment.action_space.n):
-                print(f"State {state}, Action {action}: Q-value = {self.values[state, action]}")
+                print(f"State {state}, Action {ACTIONS[action]}: Q-value = {self.values[state, action]}")
         pass
 
     def print_policy(self):
+        #ACTIONS = {0: 'left', 1: 'down', 2: 'right', 3: 'up'}
         # Print the policy derived from the Q-values
         # Initialize an empty dictionary named policy
         policy = collections.defaultdict()
@@ -108,7 +109,7 @@ class Agent:
         # Update the policy dictionary with the state-action pair
             policy[states] = best_action
         # Print the state and corresponding best action
-            print(f"State: {states} | Best Action {best_action}")
+            print(f"State: {states} | Best Action {ACTIONS[best_action[1]]}")
         # Return the policy dictionary
         pass
 
@@ -116,7 +117,7 @@ class Agent:
 if __name__ == "__main__":
     test_env = gym.make(ENV_NAME)
     agent = Agent()
-    writer = SummaryWriter(comment="-q-learning")
+    #writer = SummaryWriter(comment="-q-learning")
 
     iter_no = 0
     best_reward = 0.0
@@ -129,14 +130,14 @@ if __name__ == "__main__":
         for _ in range(TEST_EPISODES):
             cumulative_reward += agent.play_episode(test_env)
         cumulative_reward /= TEST_EPISODES
-        writer.add_scalar("reward", cumulative_reward, iter_no)
+        #writer.add_scalar("reward", cumulative_reward, iter_no)
         if cumulative_reward > best_reward:
             print("Best reward updated %.3f -> %.3f" % (best_reward, cumulative_reward))
             best_reward = cumulative_reward
         if cumulative_reward > 0.80:
             print("Solved in %d iterations!" % iter_no)
             break
-    writer.close()
+    #writer.close()
 
     # Print the Q-values and extract/print the policy
     agent.print_values()
