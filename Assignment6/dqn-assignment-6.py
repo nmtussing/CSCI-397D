@@ -11,6 +11,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as torch_functional
+import time
 
 # Leave this alone, solves a macOS issue
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
@@ -56,24 +57,32 @@ class DQN(nn.Module):
         self.fc2 = nn.Linear(128, 64)
         self.fc3 = nn.Linear(64, outputs)
         
+        self.fc1 = nn.Linear(inputs, 64)
+        self.fc2 = nn.Linear(64, 128)
+        self.fc3 = nn.Linear(128, outputs)
+        
 
     # Define forward pass
     def forward(self, x):
         #  Implement the forward pass
         #  Experiment with different activation functions
-        x = torch_functional.relu(self.fc1(x))
-        x = torch_functional.relu(self.fc2(x))
-        return self.fc3(x)
+        layer1 = torch_functional.relu(self.fc1(x))
+        layer2  = torch_functional.relu(self.fc2(layer1))
+        #layer1 = torch_functional.sigmoid(self.fc1(x))
+        #layer2  = torch_functional.sigmoid(self.fc2(layer1))
+        #layer1 = torch_functional.leaky_relu(self.fc1(x))
+        #layer2  = torch_functional.leaky_relu(self.fc2(layer1))
+        return self.fc3(layer2)
         
 
 # Hyperparameters (TODO: Define appropriate values)
 BATCH_SIZE = 128# Batch size
 GAMMA =  0.99# Discount factor
 EPS_START = 0.9 # Starting value of epsilon
-EPS_END = 0.05 # Minimum value of epsilon
-EPS_DECAY = 200# Rate of decay for epsilon
-TAU = 0.001# Target network update rate
-LR = 0.001 # Learning rate
+EPS_END = 0.600 # Minimum value of epsilon
+EPS_DECAY = 100# Rate of decay for epsilon
+TAU = 0.005# Target network update rate
+LR = 0.0001# Learning rate
 
 # Get number of actions from gym action space
 n_actions = env.action_space.n
@@ -107,6 +116,7 @@ def select_action(state):
             # Extract the index of that action (since the index corresponds to the action in a discrete action space).
             max_q_index = q_values.max(1)[1]
             action = max_q_index.view(1, 1)
+            return torch.tensor([[max_q_index]])
             # Reshapes the index into a tensor with shape (1, 1), which can be used for further processing or as an input to another function.
     else:
         # Creates a new PyTorch tensor.
@@ -116,7 +126,7 @@ def select_action(state):
         # Place the tensor on the specified device (CPU or GPU).
         # Set the data type of the tensor to a 64-bit integer.
         action = torch.tensor(nested_list_with_random_action, device=device, dtype=torch.int64)
-    
+        return action
 
 episode_durations = []
 
@@ -182,18 +192,18 @@ def optimize_model():
     state_action_values = q_values.gather(1, action_batch)
     
     # Initialize a tensor for the next state values with zeros for all batch entries.
-    next_state_values = torch.zeros(BATCH_SIZE, device=device)
+    next_statevals = torch.zeros(BATCH_SIZE, device=device)
     # Without gradient calculation for efficiency,
     # update the values for non-final states using the maximum predicted Q-value
     # from the target network, ensuring final states remain zero.  
     with torch.no_grad():
-        next_state_values[non_final_mask] = target_net(non_final_next_states).max(1)[0]
+        next_statevals[non_final_mask] = target_net(non_final_next_states).max(1)[0]
     
     # Compute the expected Q values
-    expected_state_action_values = (next_state_values * GAMMA) + reward_batch
+    expected_stateactionvals = (next_statevals * GAMMA) + reward_batch
 
     # Compute Huber loss
-    loss = torch_functional.smooth_l1_loss(state_action_values, expected_state_action_values.unsqueeze(1))
+    loss = torch_functional.smooth_l1_loss(state_action_values, expected_stateactionvals.unsqueeze(1))
     # Optimize the model
     optimizer.zero_grad()
     loss.backward()
@@ -203,10 +213,11 @@ def optimize_model():
         param.grad.data.clamp_(-1, 1)
         
 def main():
+    starttime  = time.time()
     if torch.cuda.is_available():
         num_episodes = 600
     else:
-        num_episodes = 50
+        num_episodes = 600
 
     for i_episode in range(num_episodes):
         # Initialize the environment and get it's state
@@ -249,6 +260,13 @@ def main():
                 break
 
     print("Complete")
+    endtime = time.time()
+    runtime = endtime - starttime
+    print(runtime)
     plot_durations(show_result=True)
     plt.ioff()
     plt.show()
+    
+
+if __name__ == "__main__":
+    main()
