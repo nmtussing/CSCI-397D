@@ -1,0 +1,12 @@
+PPO 
+
+* Advantage is negative: A < 0 
+    our actions yielded worse results
+    - action probability in turn decreases 
+    -once this condition is met 
+        the max is activated and hits a ceiling 
+* VPG
+
+* Genralized Advantage Estimation 
+    - we can average and cut at each N step
+    - GAE -> weighted average of all  n-step return estimators 

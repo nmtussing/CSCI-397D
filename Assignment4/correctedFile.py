@@ -9,7 +9,7 @@ MAX_ITERATIONS = 1000  # Set a maximum for iterations to avoid infinite loops
 
 class Agent:
     def __init__(self):
-        self.env = gym.make(ENV_NAME, is_slippery=False, new_step_api=True)
+        self.env = gym.make(ENV_NAME, is_slippery=False)
         self.state = self.env.reset()
         self.stateNum = self.env.observation_space.n
         self.actionNum = self.env.action_space.n
@@ -19,10 +19,14 @@ class Agent:
 
     @staticmethod
     def create_env():
-        return gym.make(ENV_NAME, is_slippery=False)
+        return gym.make(ENV_NAME, is_slippery=True)
 
     def update_transits_rewards(self, state, action, new_state, reward):
         key = (state, action)
+        print(f"New state type: {type(new_state)}")
+        print(f"Key type: {type(key)}, Key value: {key}")
+        print(f"Rewards for key type: {type(self.rewards[key])}")
+
         self.rewards[key][new_state] += reward
         self.transits[key][new_state] += 1
 
