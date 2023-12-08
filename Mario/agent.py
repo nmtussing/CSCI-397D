@@ -46,6 +46,7 @@ class Mario:
         else:
             state = torch.FloatTensor(state).cuda() if self.use_cuda else torch.FloatTensor(state)
             state = state.unsqueeze(0)
+            # The action is selected using the online network
             action_values = self.net(state, model='online')
             action_idx = torch.argmax(action_values, axis=1).item()
 
@@ -74,10 +75,11 @@ class Mario:
 
 
     def td_estimate(self, state, action):
+        # The 
         current_Q = self.net(state, model='online')[np.arange(0, self.batch_size), action] # Q_online(s,a)
         return current_Q
 
-
+    # The target network is then used to calculate the estimated Q-value
     @torch.no_grad()
     def td_target(self, reward, next_state, done):
         next_state_Q = self.net(next_state, model='online')
